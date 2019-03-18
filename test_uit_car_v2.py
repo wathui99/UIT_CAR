@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 #user module
 from fillter import get_processed_img
-from nhan_dien_duong_line import find_2_first_points, find_start_point, find_line_2
+from nhan_dien_duong_line import find_2_first_points, find_start_point, find_line_2, find_point_in_line
 from algorithm import quickSort, do_lech_line , remove_X
 
 if __name__ == '__main__':
-	img=cv2.imread('/home/chaa/UIT_Car2019/git_res/UIT_CAR/fx_UIT_Car_2.png')
+	img=cv2.imread('/home/lee/UIT_CAR/myCode/git_res/UIT_CAR/fx_UIT_Car_5.png')
 
 	img = cv2.resize(img,(320,240))
 	"""plt.imshow(img)
@@ -40,14 +40,32 @@ if __name__ == '__main__':
 	pointsRight=None
 	
 	if startRight is not None:
+		preX=startRight[0]
+		preY=startRight[1]
 		pointsRight=np.array([[startRight[0],startRight[1]]])
-		pointsRightUp=find_line_2(eyeBird_binary, left_or_right=1, up_or_down=0, startPos=startRight, heigh=10, rangeSearch=30, step=2, threshold_line=15, windowLength_line=10, threshold_empty=30, windowLength_empty=70)
-		if pointsRightUp is not None:
-			pointsRight=np.append(pointsRight, pointsRightUp, axis=0)
+		while (preX>15 and preX<305 and preY>10 and preY <230):
+			pointsRightUp=find_line_2(eyeBird_binary, left_or_right=1, up_or_down=0, startPos=np.array([preX,preY]), heigh=10, rangeSearch=30, step=2, threshold_line=15, windowLength_line=10, threshold_empty=30, windowLength_empty=70)
+			if pointsRightUp is not None:
+				pointsRight=np.append(pointsRight, pointsRightUp, axis=0)
+				preX=pointsRight[pointsRight.shape[0]-1][0]
+				preY=pointsRight[pointsRight.shape[0]-1][1]
+			for i in range(3):
+				sub_his=np.sum(eyeBird_binary[preY:preY+10+1,:], axis=0)
+				x = find_point_in_line (arr=sub_his,start_point=preX, left_or_right=1, step=1, distance_2Points=25, threshold_line=15, windowLength_line=10, threshold_empty=15, windowLength_empty=50)
+				if (x!=-1):
+					coo=np.array([[x,preY]])
+					pointsRight=np.append(pointsRight, coo, axis=0)
+					preX=x
+					preY-=10
+					break
+				preY-=10
+				if (preY<=10):
+					break
+
+		
 		pointsRightDown=find_line_2(eyeBird_binary, left_or_right=1, up_or_down=1, startPos=startRight, heigh=10, rangeSearch=30, step=2, threshold_line=15, windowLength_line=10, threshold_empty=30, windowLength_empty=70)
 		if pointsRightDown is not None:
 			pointsRight=np.append(pointsRightDown, pointsRight, axis=0)
-		np.arange(1, 5, dtype=np.int16)
 
 	if pointsRight is not None:
 		quickSort(pointsRight, 0, pointsRight.shape[0]-1)
