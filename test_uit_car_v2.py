@@ -8,10 +8,10 @@ import matplotlib.image as mpimg
 #user module
 from fillter import get_processed_img
 from nhan_dien_duong_line import find_2_first_points, find_start_point, find_line_2
-from algorithm import quickSort, do_lech_line
+from algorithm import quickSort, do_lech_line , remove_X
 
 if __name__ == '__main__':
-	img=cv2.imread('/home/lee/UIT_CAR/myCode/git_res/UIT_CAR/fx_UIT_Car_4.png')
+	img=cv2.imread('/home/chaa/UIT_Car2019/git_res/UIT_CAR/fx_UIT_Car_2.png')
 
 	img = cv2.resize(img,(320,240))
 	"""plt.imshow(img)
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 	eyeBird_binary_img=np.dstack((eyeBird_binary, eyeBird_binary, eyeBird_binary))*255
 
 	pointsRight=None
-
+	
 	if startRight is not None:
 		pointsRight=np.array([[startRight[0],startRight[1]]])
 		pointsRightUp=find_line_2(eyeBird_binary, left_or_right=1, up_or_down=0, startPos=startRight, heigh=10, rangeSearch=30, step=2, threshold_line=15, windowLength_line=10, threshold_empty=30, windowLength_empty=70)
@@ -48,13 +48,14 @@ if __name__ == '__main__':
 		if pointsRightDown is not None:
 			pointsRight=np.append(pointsRightDown, pointsRight, axis=0)
 		np.arange(1, 5, dtype=np.int16)
-	for point in pointsRight:
-		cv2.circle(eyeBird_binary_img,(point[0],point[1]), 3, (0,255,0), -1)
 
 	if pointsRight is not None:
 		quickSort(pointsRight, 0, pointsRight.shape[0]-1)
 		#loc nhieu cho line phai o day
-		print (do_lech_line(pointsRight))
+		pointsRight=remove_X(pointsRight, 1)
+		for point in pointsRight:
+			cv2.circle(eyeBird_binary_img,(point[0],point[1]), 3, (0,255,0), -1)
+	
 
 	pointsLeft=None
 
@@ -66,12 +67,13 @@ if __name__ == '__main__':
 		pointsLeftDown=find_line_2(eyeBird_binary, left_or_right=0, up_or_down=1, startPos=startLeft, heigh=10, rangeSearch=30, step=2, threshold_line=15, windowLength_line=10, threshold_empty=30, windowLength_empty=70)
 		if pointsLeftDown is not None:
 			pointsLeft=np.append(pointsLeftDown, pointsLeft, axis=0)
-	for point in pointsLeft:
-		cv2.circle(eyeBird_binary_img,(point[0],point[1]), 3, (255,0,0), -1)
 
 	if pointsLeft is not None:
 		quickSort(pointsLeft, 0, pointsLeft.shape[0]-1)
 		#loc nhieu cho line trai o day
+		pointsLeft=remove_X(pointsLeft, 0)
+		for point in pointsLeft:
+			cv2.circle(eyeBird_binary_img,(point[0],point[1]), 3, (255,0,0), -1)
 	""" sub_histogram = np.sum(eyeBird_binary[int(img_heigh/16*10):int(img_heigh/16*11),:], axis=0)
 
 	left_line, nLeft = find_line (eyeBird_binary=eyeBird_binary,nWindows=16,first_point=leftPoint, 

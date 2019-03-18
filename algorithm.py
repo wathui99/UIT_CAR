@@ -40,3 +40,42 @@ def do_lech_line(arr):
         for i in range(0, arr.shape[0]-1):
                 ret+=arr[i][0]-arr[i+1][0]
         return ret
+        
+def remove_X(arr, left_or_right):
+        if do_lech_line(arr) < 0:
+                i=0
+                while i < arr.shape[0]-1:
+                        if (arr[i][1]==arr[i+1][1]):
+                                if left_or_right==1: #line ben phai
+                                        if(arr[i][0]< arr[i+1][0]):
+                                                arr=np.delete(arr,i+1,0)
+                                        else:
+                                                arr=np.delete(arr,i,0)
+                                else: #line ben trai
+                                        if(arr[i][0]> arr[i+1][0]):
+                                                arr=np.delete(arr,i+1,0)
+                                        else:
+                                                arr=np.delete(arr,i,0)
+                                continue
+                        i+=1
+        else:
+                i=0
+                while i < arr.shape[0]-1:
+                        if (arr[i][1]==arr[i+1][1]):
+                                if left_or_right==1: #line ben phai
+                                        if(arr[i][0] > arr[i+1][0]):
+                                                arr=np.delete(arr,i+1,0)
+                                        else:
+                                                arr=np.delete(arr,i,0)
+                                else: #line ben trai
+                                        if(arr[i][0] < arr[i+1][0]):
+                                                arr=np.delete(arr,i+1,0)
+                                        else:
+                                                arr=np.delete(arr,i,0)
+                                continue
+                        i+=1
+        return arr
+                                
+                        
+
+
