@@ -8,6 +8,7 @@ import matplotlib.image as mpimg
 #user module
 from fillter import get_processed_img
 from nhan_dien_duong_line import find_2_first_points, find_start_point, find_line_2
+from algorithm import quickSort
 
 if __name__ == '__main__':
 	img=cv2.imread('/home/lee/UIT_CAR/myCode/git_res/UIT_CAR/fx_UIT_Car_2.png')
@@ -50,6 +51,10 @@ if __name__ == '__main__':
 	for point in pointsRight:
 		cv2.circle(eyeBird_binary_img,(point[0],point[1]), 3, (0,255,0), -1)
 
+	if pointsRight is not None:
+		quickSort(pointsRight, 0, pointsRight.shape[0]-1)
+		#loc nhieu cho line phai o day
+
 	pointsLeft=None
 
 	if startLeft is not None:
@@ -62,6 +67,10 @@ if __name__ == '__main__':
 			pointsLeft=np.append(pointsLeftDown, pointsLeft, axis=0)
 	for point in pointsLeft:
 		cv2.circle(eyeBird_binary_img,(point[0],point[1]), 3, (255,0,0), -1)
+
+	if pointsLeft is not None:
+		quickSort(pointsLeft, 0, pointsLeft.shape[0]-1)
+		#loc nhieu cho line trai o day
 	""" sub_histogram = np.sum(eyeBird_binary[int(img_heigh/16*10):int(img_heigh/16*11),:], axis=0)
 
 	left_line, nLeft = find_line (eyeBird_binary=eyeBird_binary,nWindows=16,first_point=leftPoint, 
