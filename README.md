@@ -7,3 +7,4 @@ Opencv, tensorflow, python for auto car
 - Mục tiêu:
 * xử lý nhiễu line đường (bỏ những điểm quá gần ko cần thiết tránh nhiễu)
 * tìm các vecter của line đường -> để tìm góc bẻ và tốc độ phù hợp cho xe
+
