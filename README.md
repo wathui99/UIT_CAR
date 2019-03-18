@@ -1,5 +1,5 @@
 # UIT_CAR
-Opencv, tensorflow, python for auto car
+Opencv, tensorflow
 
 - Quá trình hiện tại:
 * lấy được ảnh xử lý và đưa ra eyeBird
