@@ -34,3 +34,9 @@ def quickSort(arr,low,high):
         # partition and after partition 
         quickSort(arr, low, pi-1) 
         quickSort(arr, pi+1, high) 
+
+def do_lech_line(arr):
+        ret=0
+        for i in range(0, arr.shape[0]-1):
+                ret+=arr[i][0]-arr[i+1][0]
+        return ret

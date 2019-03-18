@@ -8,10 +8,10 @@ import matplotlib.image as mpimg
 #user module
 from fillter import get_processed_img
 from nhan_dien_duong_line import find_2_first_points, find_start_point, find_line_2
-from algorithm import quickSort
+from algorithm import quickSort, do_lech_line
 
 if __name__ == '__main__':
-	img=cv2.imread('/home/lee/UIT_CAR/myCode/git_res/UIT_CAR/fx_UIT_Car_2.png')
+	img=cv2.imread('/home/lee/UIT_CAR/myCode/git_res/UIT_CAR/fx_UIT_Car_4.png')
 
 	img = cv2.resize(img,(320,240))
 	"""plt.imshow(img)
@@ -54,6 +54,7 @@ if __name__ == '__main__':
 	if pointsRight is not None:
 		quickSort(pointsRight, 0, pointsRight.shape[0]-1)
 		#loc nhieu cho line phai o day
+		print (do_lech_line(pointsRight))
 
 	pointsLeft=None
 
