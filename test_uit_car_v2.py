@@ -14,7 +14,7 @@ import matplotlib.image as mpimg
 from fillter import get_processed_img
 from nhan_dien_duong_line import find_2_first_points, find_start_point, find_line_2, find_point_in_line, find_1_first_point
 from algorithm import quickSort_y, do_lech_line , remove_X
-from midpoint import find_mid_points, caculate_angle_mid_point
+from midpoint import find_mid_points, caculate_angle_mid_point, get_Speed_angle
 
 def jsonToString(speed, angle):
     jsonObject = {'speed': speed,
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 		sys.exit()
 	while True:
 		try:
-			img=cv2.imread('/home/lee/UIT_CAR/Unity_UITCar-master/theFxUITCar_Data/Snapshots/fx_UIT_Car.png')
+			img=cv2.imread('/home/chaa/UIT_Car2019/UIT_CAR/Unity_UITCar/theFxUITCar_Data/Snapshots/fx_UIT_Car.png')
 			
 			#img=cv2.imread('/home/lee/UIT_CAR/myCode/git_res/UIT_CAR/fx_UIT_Car_2.png')
 
@@ -204,44 +204,7 @@ if __name__ == '__main__':
 					do_lech=float(do_lech_line(pointsMid)/pointsMid.shape[0])
 					angle=0
 					speed=0
-					if (abs(do_lech) > 6.0):
-						angle=45
-						speed=10
-					elif (abs(do_lech) > 5.5):
-						angle=40
-						speed=15
-					elif (abs(do_lech) > 5.0):
-						angle=35
-						speed=18
-					elif (abs(do_lech) > 4.5):
-						angle=30
-						speed=30
-					elif (abs(do_lech) > 4.0):
-						angle=25
-						speed=35
-					elif (abs(do_lech) > 3.5):
-						angle=20
-						speed=50
-					elif (abs(do_lech) > 3.0):
-						angle=15
-						speed=55
-					elif (abs(do_lech) > 2.5):
-						angle=10
-						speed=60
-					elif (abs(do_lech) > 2.0):
-						angle=8
-						speed=65
-					elif (abs(do_lech) > 1.0):
-						angle=4
-						speed=70
-					elif (abs(do_lech) > 0.2):
-						angle=2
-						speed=75
-					else:
-						angle=0
-						speed=80
-					if do_lech > 0:
-						angle*=(-1)
+					speed,angle = get_Speed_angle(do_lech)
 					angle+=a
 					message = jsonToString(speed, angle)
 					#message = "Hello World"
@@ -324,44 +287,7 @@ if __name__ == '__main__':
 						do_lech=float(do_lech_line(pointsRight)/pointsRight.shape[0])
 						angle=0
 						speed=0
-						if (abs(do_lech) > 6.0):
-							angle=45
-							speed=10
-						elif (abs(do_lech) > 5.5):
-							angle=40
-							speed=15
-						elif (abs(do_lech) > 5.0):
-							angle=35
-							speed=18
-						elif (abs(do_lech) > 4.5):
-							angle=30
-							speed=20
-						elif (abs(do_lech) > 4.0):
-							angle=25
-							speed=25
-						elif (abs(do_lech) > 3.5):
-							angle=20
-							speed=30
-						elif (abs(do_lech) > 3.0):
-							angle=15
-							speed=35
-						elif (abs(do_lech) > 2.5):
-							angle=10
-							speed=40
-						elif (abs(do_lech) > 2.0):
-							angle=8
-							speed=45
-						elif (abs(do_lech) > 1.0):
-							angle=4
-							speed=50
-						elif (abs(do_lech) > 0.2):
-							angle=2
-							speed=55
-						else:
-							angle=0
-							speed=60
-						if do_lech > 0:
-							angle*=(-1)
+						speed,angle = get_Speed_angle(do_lech)
 						angle+=a
 						message = jsonToString(speed, angle)
 						#message = "Hello World"
@@ -441,44 +367,7 @@ if __name__ == '__main__':
 							do_lech=float(do_lech_line(pointsLeft)/pointsLeft.shape[0])
 							angle=0
 							speed=0
-							if (abs(do_lech) > 6.0):
-								angle=45
-								speed=10
-							elif (abs(do_lech) > 5.5):
-								angle=40
-								speed=15
-							elif (abs(do_lech) > 5.0):
-								angle=35
-								speed=18
-							elif (abs(do_lech) > 4.5):
-								angle=30
-								speed=30
-							elif (abs(do_lech) > 4.0):
-								angle=25
-								speed=35
-							elif (abs(do_lech) > 3.5):
-								angle=20
-								speed=40
-							elif (abs(do_lech) > 3.0):
-								angle=15
-								speed=45
-							elif (abs(do_lech) > 2.5):
-								angle=10
-								speed=50
-							elif (abs(do_lech) > 2.0):
-								angle=8
-								speed=55
-							elif (abs(do_lech) > 1.0):
-								angle=4
-								speed=60
-							elif (abs(do_lech) > 0.2):
-								angle=2
-								speed=65
-							else:
-								angle=0
-								speed=80
-							if do_lech > 0:
-								angle*=(-1)
+							speed,angle = get_Speed_angle(do_lech)
 							angle+=a
 							message = jsonToString(speed, angle)
 							#message = "Hello World"

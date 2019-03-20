@@ -38,3 +38,43 @@ def caculate_angle_mid_point (ImgShapeX,ImgShapeY,midPoint,ratio):
 	else:
 		return 0
 	return angle * np.arctan(float(AC)/AB)/np.pi*180 * (ImgShapeY-midPoint[1])/float(ImgShapeY/ratio)
+def get_Speed_angle(do_lech):
+    if (abs(do_lech) > 6.0):
+        angle=45
+        speed=10
+    elif (abs(do_lech) > 5.5):
+        angle=40
+        speed=15
+    elif (abs(do_lech) > 5.0):
+        angle=35
+        speed=18
+    elif (abs(do_lech) > 4.5):
+        angle=30
+        speed=30
+    elif (abs(do_lech) > 4.0):
+        angle=25
+        speed=35
+    elif (abs(do_lech) > 3.5):
+        angle=20
+        speed=40
+    elif (abs(do_lech) > 3.0):
+        angle=15
+        speed=45
+    elif (abs(do_lech) > 2.5):
+        angle=10
+        speed=50
+    elif (abs(do_lech) > 2.0):
+        angle=8
+        speed=55
+    elif (abs(do_lech) > 1.0):
+        angle=4
+        speed=60
+    elif (abs(do_lech) > 0.2):
+        angle=2
+        speed=65
+    else:
+        angle=0
+        speed=80
+    if do_lech > 0:
+        angle*=(-1)
+    return speed,angle
