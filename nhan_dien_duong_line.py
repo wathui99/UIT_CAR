@@ -63,7 +63,7 @@ def fill_points(points,distance_2Points=2):
   #1 -> tim line phai
 #step cang cao toc do cang nhanh -> chinh xac giam
 
-def find_first_point (arr, startPos, endPos, left_or_right, windowLength_line=7, windowLength_empty=20, step=2, threshold_empty=15, threshold_line=50):
+def find_1_first_point (arr, startPos, endPos, left_or_right, windowLength_line=7, windowLength_empty=20, step=2, threshold_empty=15, threshold_line=50):
 	#ben phai vi tri lan luot la:
 	# ....00000012321....
 	if left_or_right == 1: #nhan dien ben phai		
@@ -498,99 +498,7 @@ def detect_line(eyeBird_binary,threshold_num_point=8):
 	return fill_line_left,fill_line_right,line_detect
 
 
-#chi detect 1 ben line
-#left or right=0 =>trai
-#			   1 =>phai
-#tra ve None neu khong tim duoc
-#neu tim duoc tra ve voi dang mang 2 chieu, va 1 gia tri dem cua line tim duoc
-def detect_one_line(eyeBird_binary,left_or_right):
-	line_detect = np.dstack((eyeBird_binary, eyeBird_binary, eyeBird_binary))*0
-	#tim ben trai
-	if (left_or_right==0):
-		img_heigh = eyeBird_binary.shape[0]
-		img_width = eyeBird_binary.shape[1]
-
-		#lay tong cua nua phan duoi
-		half_bottom_histogram = np.sum(eyeBird_binary[int(img_heigh/2):img_heigh,:], axis=0)
-		#tim vi tri dau tien line ben trai
-		#nua duoi ben trai -> 1/2
-		left_x,_=find_first_point (arr=half_bottom_histogram, 
-				startPos=20, 
-				endPos=int(img_width/2)+50, left_or_right=0, 
-				windowLength_line=7, windowLength_empty=20, step=2, 
-				threshold_empty=15, threshold_line=40)
-		#nhan dien duoc first point
-		if left_x is not None:
-			#do line trai tu duoi len
-			left_line, nLeft = find_line (eyeBird_binary=eyeBird_binary,nWindows=16,first_point=left_x, 
-										left_or_right=0, bottom_or_top=0)
-			#khong nhan dien duoc line
-			if left_line is None:
-				return None,0,line_detect
-
-			#luot bo cac diem = -1 (khong nhan dien duoc)
-			fill_line_left=None
-			for i in range(left_line.shape[0]):
-				if (left_line[i][0] != -1):
-					if (fill_line_left is not None):
-						temp=np.array([[left_line[i][0],left_line[i][1]]])
-						fill_line_left=np.append(fill_line_left,temp,axis=0)
-					else:
-						fill_line_left=np.array([[left_line[i][0],left_line[i][1]]])
-
-			#dung cho hien thi diem
-			for point_left in fill_line_left:
-				cv2.circle(line_detect,(point_left[0],point_left[1]), 5, (0,0,255), -1)
-
-			#cv2.imshow('line_detect',line_detect)
-
-			#tra ve danh sach cac diem tim duoc va so luong
-			return fill_line_left,nLeft,line_detect
-		#khong nhan dien duoc first point
-		else :
-			return None,0,line_detect
-	#tim ben phai
-	if (left_or_right==1):
-		img_heigh = eyeBird_binary.shape[0]
-		img_width = eyeBird_binary.shape[1]
-
-		#lay tong cua nua phan duoi
-		half_bottom_histogram = np.sum(eyeBird_binary[int(img_heigh/2):img_heigh,:], axis=0)
-		#nua duoi ke tu line trai qua phai -> cuoi
-		right_x,_=find_first_point (arr=half_bottom_histogram, 
-				startPos=int(img_width/2), 
-				endPos=img_width, left_or_right=1, 
-				windowLength_line=7, windowLength_empty=20, step=2, 
-				threshold_empty=15, threshold_line=40)
-		if right_x is not None:
-			#do line phai tu duoi len
-			right_line, nRight = find_line (eyeBird_binary=eyeBird_binary,nWindows=16,first_point=right_x, 
-											left_or_right=1, bottom_or_top=0)
-			#khong nhan dien duoc line
-			if right_line is None:
-				return None,0,line_detect
-
-			#luot bo cac diem = -1 (khong nhan dien duoc)
-			fill_line_right=None
-			for i in range(right_line.shape[0]):
-				if (right_line[i][0] != -1):
-					if (fill_line_right is not None):
-						temp=np.array([[right_line[i][0],right_line[i][1]]])
-						fill_line_right=np.append(fill_line_right,temp,axis=0)
-					else:
-						fill_line_right=np.array([[right_line[i][0],right_line[i][1]]])
-
-			#dung cho hien thi diem
-			for point_right in fill_line_right:
-				cv2.circle(line_detect,(point_right[0],point_right[1]), 5, (0,255,0), -1)
-			#cv2.imshow('line_detect',line_detect)
-
-			#tra ve danh sach cac diem tim duoc va so luong
-			return fill_line_right,nRight,line_detect
-		#khong nhan dien duoc first point
-		else:
-			return None,0,line_detect
-
+	
 def find_start_point (eyeBird_binary, left_or_right, startX, bottonY=240, topY=135, heigh=15, threshold_line=13, windowLength_line=8, threshold_empty=5, windowLength_empty=20):
 	#=================================================line phai========================================================
 	if (left_or_right==1):
